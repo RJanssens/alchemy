@@ -8,6 +8,7 @@ import { IngredientDeckComponent } from './components/ingredient-deck/ingredient
 import { GrimoireComponent } from './components/grimoire/grimoire.component';
 import { QuestsComponent } from './components/quests/quests.component';
 import { AchievementsComponent } from './components/achievements/achievements.component';
+import { AdventureComponent } from './components/adventure/adventure.component';
 import { DialogComponent } from './components/dialog/dialog.component';
 
 @Component({
@@ -20,6 +21,7 @@ import { DialogComponent } from './components/dialog/dialog.component';
     GrimoireComponent,
     QuestsComponent,
     AchievementsComponent,
+    AdventureComponent,
     DialogComponent
   ],
   templateUrl: './app.component.html',

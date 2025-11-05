@@ -2,6 +2,7 @@ import { IngredientState } from './ingredient.model';
 import { RecipeDiscovery } from './recipe.model';
 import { Quest } from './quest.model';
 import { AchievementState } from './achievement.model';
+import { Equipment, Monster } from './adventure.model';
 
 export interface WitchRank {
   name: string;
@@ -33,6 +34,26 @@ export interface KettleState {
 export interface FamiliarState {
   lastConsultationTime: number;
   consultationCount: number;
+  // Adventure stats
+  level: number;
+  xp: number;
+  xpToNextLevel: number;
+  health: number;
+  maxHealth: number;
+  baseAttack: number;
+  baseDefense: number;
+  equippedWeapon: string | null; // equipment ID
+  equippedArmor: string | null;
+  equippedAccessory: string | null;
+}
+
+export interface AdventureState {
+  isActive: boolean;
+  currentMonster: Monster | null;
+  combatLog: string[];
+  equipmentInventory: string[]; // array of equipment IDs
+  monsterDefeated: number;
+  totalDistance: number;
 }
 
 export interface GameStats {
@@ -55,6 +76,7 @@ export interface GameState {
   questRefreshTime: number;
   achievements: { [key: string]: AchievementState };
   familiar: FamiliarState;
+  adventure: AdventureState;
   stats: GameStats;
   lastSaveTime: number;
 }

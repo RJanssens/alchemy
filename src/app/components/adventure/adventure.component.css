@@ -1,0 +1,438 @@
+.adventure-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+}
+
+.adventure-container h2 {
+  font-size: 20px;
+  margin: 0;
+  text-align: center;
+}
+
+/* Familiar Stats */
+.familiar-stats {
+  background: rgba(138, 43, 226, 0.1);
+  border: 1px solid rgba(138, 43, 226, 0.3);
+  border-radius: 8px;
+  padding: 12px;
+}
+
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.familiar-level {
+  font-size: 16px;
+  font-weight: 700;
+  color: #ffd700;
+}
+
+.familiar-xp {
+  font-size: 13px;
+  color: #aaa;
+}
+
+.stat-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: #aaa;
+}
+
+.stat-bar-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-bar {
+  flex: 1;
+  height: 16px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.stat-bar.health {
+  background: rgba(139, 0, 0, 0.3);
+}
+
+.stat-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #ff6b6b 0%, #ff8787 100%);
+  transition: width 0.5s ease;
+}
+
+.stat-value {
+  font-size: 12px;
+  min-width: 70px;
+  text-align: right;
+  color: #fff;
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.stat-mini {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.stat-number {
+  font-weight: 700;
+  color: #4ecdc4;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 8px;
+  border-bottom: 2px solid rgba(138, 43, 226, 0.3);
+}
+
+.tab {
+  flex: 1;
+  padding: 10px;
+  background: rgba(138, 43, 226, 0.1);
+  border: 1px solid rgba(138, 43, 226, 0.3);
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+}
+
+.tab.active {
+  background: rgba(138, 43, 226, 0.3);
+  border-color: rgba(138, 43, 226, 0.6);
+}
+
+/* Combat Section */
+.combat-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.start-adventure {
+  text-align: center;
+  padding: 32px;
+}
+
+.start-adventure p {
+  margin-bottom: 16px;
+  color: #aaa;
+}
+
+.start-button {
+  font-size: 16px;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #4ecdc4 0%, #44a8a0 100%);
+}
+
+/* Monster Panel */
+.monster-panel {
+  background: rgba(255, 69, 58, 0.1);
+  border: 2px solid rgba(255, 69, 58, 0.5);
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.monster-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.monster-icon {
+  font-size: 48px;
+}
+
+.monster-info h3 {
+  margin: 0;
+  font-size: 18px;
+  color: #fff;
+}
+
+.monster-level {
+  font-size: 13px;
+  color: #ff8787;
+}
+
+.monster-health {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.health-text {
+  font-size: 13px;
+  text-align: center;
+  color: #fff;
+}
+
+.progress-fill.enemy {
+  background: linear-gradient(90deg, #ff6b6b 0%, #ff4444 100%);
+}
+
+.monster-stats {
+  display: flex;
+  gap: 16px;
+  font-size: 14px;
+  justify-content: center;
+}
+
+.attack-button {
+  background: linear-gradient(135deg, #ff6b35 0%, #e85d3e 100%);
+  font-size: 16px;
+  padding: 12px;
+}
+
+/* Combat Log */
+.combat-log {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.log-header {
+  padding: 8px 12px;
+  background: rgba(138, 43, 226, 0.3);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.log-messages {
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.log-message {
+  font-size: 12px;
+  color: #ddd;
+  line-height: 1.4;
+}
+
+/* Adventure Stats */
+.adventure-stats {
+  display: flex;
+  gap: 12px;
+}
+
+.adventure-stats .stat-item {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: rgba(138, 43, 226, 0.1);
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+.end-button {
+  background: linear-gradient(135deg, #666 0%, #555 100%);
+}
+
+/* Equipment Section */
+.equipment-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.equipped-panel,
+.inventory-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.equipped-panel h3,
+.inventory-panel h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #fff;
+}
+
+.equipment-slots {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.equipment-slot {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.slot-label {
+  font-size: 13px;
+  color: #aaa;
+  font-weight: 600;
+}
+
+.equipped-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(138, 43, 226, 0.3);
+  border-radius: 8px;
+}
+
+.empty-slot {
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px dashed rgba(138, 43, 226, 0.3);
+  border-radius: 8px;
+  text-align: center;
+  color: #666;
+  font-size: 13px;
+}
+
+.item-icon {
+  font-size: 32px;
+}
+
+.item-icon-large {
+  font-size: 40px;
+}
+
+.item-details,
+.item-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.item-name {
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+}
+
+.item-type {
+  font-size: 11px;
+  color: #aaa;
+  text-transform: capitalize;
+}
+
+.item-stats,
+.item-stats-full {
+  font-size: 12px;
+  color: #4ecdc4;
+}
+
+.item-value {
+  font-size: 12px;
+  color: #ffd700;
+}
+
+.unequip-btn {
+  padding: 6px 10px;
+  font-size: 14px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Inventory */
+.empty-inventory {
+  padding: 24px;
+  text-align: center;
+  color: #888;
+  font-size: 13px;
+}
+
+.inventory-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.inventory-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(138, 43, 226, 0.3);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.inventory-item:hover {
+  transform: translateX(4px);
+  border-color: rgba(138, 43, 226, 0.6);
+}
+
+.item-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.equip-btn,
+.sell-btn {
+  padding: 6px 12px;
+  font-size: 12px;
+}
+
+.equip-btn {
+  background: linear-gradient(135deg, #4ecdc4 0%, #44a8a0 100%);
+}
+
+.sell-btn {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  color: #333;
+}
+
+/* Rarity Colors */
+.rarity-common {
+  border-color: rgba(169, 169, 169, 0.5);
+}
+
+.rarity-uncommon {
+  border-color: rgba(30, 255, 0, 0.5);
+}
+
+.rarity-rare {
+  border-color: rgba(0, 112, 221, 0.5);
+}
+
+.rarity-epic {
+  border-color: rgba(163, 53, 238, 0.5);
+}
+
+.rarity-legendary {
+  border-color: rgba(255, 128, 0, 0.5);
+  box-shadow: 0 0 12px rgba(255, 128, 0, 0.3);
+}

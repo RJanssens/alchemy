@@ -106,7 +106,25 @@ export class GameStateService {
       achievements,
       familiar: {
         lastConsultationTime: 0,
-        consultationCount: 0
+        consultationCount: 0,
+        level: 1,
+        xp: 0,
+        xpToNextLevel: 100,
+        health: 50,
+        maxHealth: 50,
+        baseAttack: 10,
+        baseDefense: 5,
+        equippedWeapon: null,
+        equippedArmor: null,
+        equippedAccessory: null
+      },
+      adventure: {
+        isActive: false,
+        currentMonster: null,
+        combatLog: [],
+        equipmentInventory: [],
+        monsterDefeated: 0,
+        totalDistance: 0
       },
       stats: {
         totalSuccessfulMixes: 0,

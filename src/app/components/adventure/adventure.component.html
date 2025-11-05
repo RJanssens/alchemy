@@ -1,0 +1,203 @@
+<div class="adventure-container card">
+  <h2>🐈 Familiar's Adventure</h2>
+
+  <!-- Familiar Stats -->
+  <div class="familiar-stats" *ngIf="familiar">
+    <div class="stat-header">
+      <span class="familiar-level">Level {{ familiar.level }}</span>
+      <span class="familiar-xp">{{ familiar.xp }} / {{ familiar.xpToNextLevel }} XP</span>
+    </div>
+
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="getXpPercentage()"></div>
+    </div>
+
+    <div class="stat-bars">
+      <div class="stat-item">
+        <span class="stat-label">❤️ Health:</span>
+        <div class="stat-bar-container">
+          <div class="stat-bar health">
+            <div class="stat-bar-fill" [style.width.%]="getHealthPercentage()"></div>
+          </div>
+          <span class="stat-value">{{ familiar.health }} / {{ familiar.maxHealth }}</span>
+        </div>
+      </div>
+
+      <div class="stat-row">
+        <div class="stat-mini">
+          <span>⚔️ Attack:</span>
+          <span class="stat-number">{{ totalAttack }}</span>
+        </div>
+        <div class="stat-mini">
+          <span>🛡️ Defense:</span>
+          <span class="stat-number">{{ totalDefense }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button
+      class="tab"
+      [class.active]="selectedTab === 'combat'"
+      (click)="switchTab('combat')"
+    >
+      ⚔️ Combat
+    </button>
+    <button
+      class="tab"
+      [class.active]="selectedTab === 'equipment'"
+      (click)="switchTab('equipment')"
+    >
+      🎒 Equipment
+    </button>
+  </div>
+
+  <!-- Combat Tab -->
+  <div *ngIf="selectedTab === 'combat'" class="combat-section">
+    <div *ngIf="!isAdventuring" class="start-adventure">
+      <p>Your familiar is resting at home.</p>
+      <button class="start-button" (click)="startAdventure()">
+        🗺️ Start Adventure
+      </button>
+    </div>
+
+    <div *ngIf="isAdventuring" class="active-adventure">
+      <!-- Current Monster -->
+      <div *ngIf="currentMonster" class="monster-panel">
+        <div class="monster-header">
+          <span class="monster-icon">{{ currentMonster.icon }}</span>
+          <div class="monster-info">
+            <h3>{{ currentMonster.name }}</h3>
+            <span class="monster-level">Level {{ currentMonster.level }}</span>
+          </div>
+        </div>
+
+        <div class="monster-health">
+          <div class="progress-bar">
+            <div class="progress-fill enemy" [style.width.%]="getMonsterHealthPercentage()"></div>
+          </div>
+          <span class="health-text">{{ currentMonster.health }} / {{ currentMonster.maxHealth }} HP</span>
+        </div>
+
+        <div class="monster-stats">
+          <span>⚔️ {{ currentMonster.attack }}</span>
+          <span>🛡️ {{ currentMonster.defense }}</span>
+        </div>
+
+        <button class="attack-button" (click)="attack()">
+          ⚔️ Attack
+        </button>
+      </div>
+
+      <!-- Combat Log -->
+      <div class="combat-log">
+        <div class="log-header">📜 Combat Log</div>
+        <div class="log-messages">
+          <div *ngFor="let message of combatLog" class="log-message">
+            {{ message }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Adventure Stats -->
+      <div class="adventure-stats">
+        <div class="stat-item">
+          <span>💀 Monsters Defeated:</span>
+          <span>{{ adventure?.monsterDefeated || 0 }}</span>
+        </div>
+        <div class="stat-item">
+          <span>🌌 Distance Traveled:</span>
+          <span>{{ adventure?.totalDistance || 0 }}</span>
+        </div>
+      </div>
+
+      <button class="end-button" (click)="endAdventure()">
+        🏠 Return Home
+      </button>
+    </div>
+  </div>
+
+  <!-- Equipment Tab -->
+  <div *ngIf="selectedTab === 'equipment'" class="equipment-section">
+    <!-- Equipped Items -->
+    <div class="equipped-panel">
+      <h3>⚡ Equipped</h3>
+
+      <div class="equipment-slots">
+        <div class="equipment-slot">
+          <div class="slot-label">⚔️ Weapon</div>
+          <div *ngIf="equippedWeapon" class="equipped-item" [ngClass]="getRarityClass(equippedWeapon.rarity)">
+            <span class="item-icon">{{ equippedWeapon.icon }}</span>
+            <div class="item-details">
+              <span class="item-name">{{ equippedWeapon.name }}</span>
+              <span class="item-stats">⚔️ +{{ equippedWeapon.attack }} 🛡️ +{{ equippedWeapon.defense }}</span>
+            </div>
+            <button class="unequip-btn" (click)="unequipSlot('weapon')">✕</button>
+          </div>
+          <div *ngIf="!equippedWeapon" class="empty-slot">Empty</div>
+        </div>
+
+        <div class="equipment-slot">
+          <div class="slot-label">🛡️ Armor</div>
+          <div *ngIf="equippedArmor" class="equipped-item" [ngClass]="getRarityClass(equippedArmor.rarity)">
+            <span class="item-icon">{{ equippedArmor.icon }}</span>
+            <div class="item-details">
+              <span class="item-name">{{ equippedArmor.name }}</span>
+              <span class="item-stats">⚔️ +{{ equippedArmor.attack }} 🛡️ +{{ equippedArmor.defense }}</span>
+            </div>
+            <button class="unequip-btn" (click)="unequipSlot('armor')">✕</button>
+          </div>
+          <div *ngIf="!equippedArmor" class="empty-slot">Empty</div>
+        </div>
+
+        <div class="equipment-slot">
+          <div class="slot-label">💍 Accessory</div>
+          <div *ngIf="equippedAccessory" class="equipped-item" [ngClass]="getRarityClass(equippedAccessory.rarity)">
+            <span class="item-icon">{{ equippedAccessory.icon }}</span>
+            <div class="item-details">
+              <span class="item-name">{{ equippedAccessory.name }}</span>
+              <span class="item-stats">⚔️ +{{ equippedAccessory.attack }} 🛡️ +{{ equippedAccessory.defense }}</span>
+            </div>
+            <button class="unequip-btn" (click)="unequipSlot('accessory')">✕</button>
+          </div>
+          <div *ngIf="!equippedAccessory" class="empty-slot">Empty</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inventory -->
+    <div class="inventory-panel">
+      <h3>🎒 Inventory ({{ inventoryEquipment.length }})</h3>
+
+      <div *ngIf="inventoryEquipment.length === 0" class="empty-inventory">
+        No equipment in inventory. Defeat monsters to get drops!
+      </div>
+
+      <div class="inventory-grid">
+        <div
+          *ngFor="let equipment of inventoryEquipment"
+          class="inventory-item"
+          [ngClass]="getRarityClass(equipment.rarity)"
+        >
+          <span class="item-icon-large">{{ equipment.icon }}</span>
+          <div class="item-info">
+            <span class="item-name">{{ equipment.name }}</span>
+            <span class="item-type">{{ equipment.type }}</span>
+            <span class="item-stats-full">⚔️ +{{ equipment.attack }} 🛡️ +{{ equipment.defense }}</span>
+            <span class="item-value">💰 {{ equipment.value }} gold</span>
+          </div>
+          <div class="item-actions">
+            <button class="equip-btn" (click)="equipItem(equipment)">
+              ⚡ Equip
+            </button>
+            <button class="sell-btn" (click)="sellEquipment(equipment)">
+              💰 Sell
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
