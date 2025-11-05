@@ -23,8 +23,8 @@ export class GameStateService {
       this.saveGame();
     });
 
-    // Update timers every 100ms
-    interval(100).subscribe(() => {
+    // Update timers every 250ms (reduced frequency to prevent UI flickering)
+    interval(250).subscribe(() => {
       this.updateTimers();
     });
   }
@@ -155,9 +155,13 @@ export class GameStateService {
           // Conjuration complete
           this.completeConjuration(ingredientId);
           hasUpdates = true;
-        } else if (ingredientState.conjurationProgress !== progress) {
-          ingredientState.conjurationProgress = progress;
-          hasUpdates = true;
+        } else {
+          // Only update if progress changed by at least 1%
+          const progressDiff = Math.abs(ingredientState.conjurationProgress - progress);
+          if (progressDiff >= 1) {
+            ingredientState.conjurationProgress = Math.floor(progress);
+            hasUpdates = true;
+          }
         }
       }
     });
@@ -171,9 +175,13 @@ export class GameStateService {
         // Mixing complete
         this.completeMixing();
         hasUpdates = true;
-      } else if (state.kettle.mixProgress !== progress) {
-        state.kettle.mixProgress = progress;
-        hasUpdates = true;
+      } else {
+        // Only update if progress changed by at least 1%
+        const progressDiff = Math.abs(state.kettle.mixProgress - progress);
+        if (progressDiff >= 1) {
+          state.kettle.mixProgress = Math.floor(progress);
+          hasUpdates = true;
+        }
       }
     }
 
