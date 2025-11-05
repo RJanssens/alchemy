@@ -17,9 +17,9 @@ export interface IngredientState {
   count: number;
   maxStorage: number;
   discovered: boolean;
-  conjurationProgress: number; // 0-100
   isConjuring: boolean;
   conjurationStartTime: number;
+  conjurationDuration: number; // in milliseconds
   autoConjureEnabled: boolean;
   lastAutoConjureTime: number;
 

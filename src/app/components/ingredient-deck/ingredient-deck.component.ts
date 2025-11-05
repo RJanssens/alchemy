@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameStateService } from '../../services/game-state.service';
 import { RecipeService } from '../../services/recipe.service';
@@ -9,6 +9,7 @@ import { Ingredient, IngredientState } from '../../models/ingredient.model';
 interface IngredientDisplay {
   ingredient: Ingredient;
   state: IngredientState;
+  progress: number; // Local progress calculation
 }
 
 @Component({
@@ -18,10 +19,11 @@ interface IngredientDisplay {
   templateUrl: './ingredient-deck.component.html',
   styleUrls: ['./ingredient-deck.component.css']
 })
-export class IngredientDeckComponent implements OnInit {
+export class IngredientDeckComponent implements OnInit, OnDestroy {
   gameState: GameState | null = null;
   viewMode: 'full' | 'collapsed' = 'full';
   expandedIngredients = new Set<string>();
+  private localTimer: any;
 
   constructor(
     private gameStateService: GameStateService,
@@ -33,6 +35,18 @@ export class IngredientDeckComponent implements OnInit {
     this.gameStateService.getState().subscribe(state => {
       this.gameState = state;
     });
+
+    // Local timer for progress bars only (doesn't update global state)
+    this.localTimer = setInterval(() => {
+      // This forces Angular to check for changes in the template
+      // but doesn't emit new state
+    }, 100);
+  }
+
+  ngOnDestroy(): void {
+    if (this.localTimer) {
+      clearInterval(this.localTimer);
+    }
   }
 
   get visibleIngredients(): IngredientDisplay[] {
@@ -44,10 +58,22 @@ export class IngredientDeckComponent implements OnInit {
         // Show base ingredients always, or discovered/in-inventory compounds
         return ingredient.isBase || state.discovered || state.count > 0;
       })
-      .map(ingredient => ({
-        ingredient,
-        state: this.gameState!.ingredients[ingredient.id]
-      }));
+      .map(ingredient => {
+        const state = this.gameState!.ingredients[ingredient.id];
+        return {
+          ingredient,
+          state,
+          progress: this.calculateProgress(state)
+        };
+      });
+  }
+
+  private calculateProgress(state: IngredientState): number {
+    if (!state.isConjuring || state.conjurationDuration === 0) return 0;
+
+    const elapsed = Date.now() - state.conjurationStartTime;
+    const progress = Math.min((elapsed / state.conjurationDuration) * 100, 100);
+    return progress;
   }
 
   toggleViewMode(): void {

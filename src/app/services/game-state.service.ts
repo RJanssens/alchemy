@@ -53,9 +53,9 @@ export class GameStateService {
         count: 0,
         maxStorage: ingredient.isBase ? 20 : 10,
         discovered: ingredient.isBase,
-        conjurationProgress: 0,
         isConjuring: false,
         conjurationStartTime: 0,
+        conjurationDuration: 0,
         autoConjureEnabled: false,
         lastAutoConjureTime: 0,
         storageLevel: 0,
@@ -95,7 +95,6 @@ export class GameStateService {
         slots: [{ ingredientId: null }, { ingredientId: null }],
         maxSlots: 2,
         isMixing: false,
-        mixProgress: 0,
         mixStartTime: 0,
         mixDuration: 0
       },
@@ -141,51 +140,33 @@ export class GameStateService {
     const state = this.getCurrentState();
     let hasUpdates = false;
 
-    // Update conjuration progress
+    // Check for completed conjurations (no progress tracking)
     Object.keys(state.ingredients).forEach(ingredientId => {
       const ingredientState = state.ingredients[ingredientId];
-      const ingredient = this.dataService.getIngredient(ingredientId);
 
-      if (ingredient && ingredientState.isConjuring) {
+      if (ingredientState.isConjuring) {
         const elapsed = Date.now() - ingredientState.conjurationStartTime;
-        const duration = this.getConjurationTime(ingredient, ingredientState);
-        const progress = Math.min((elapsed / duration) * 100, 100);
 
-        if (progress >= 100) {
+        if (elapsed >= ingredientState.conjurationDuration) {
           // Conjuration complete
           this.completeConjuration(ingredientId);
           hasUpdates = true;
-        } else {
-          // Only update if progress changed by at least 1%
-          const progressDiff = Math.abs(ingredientState.conjurationProgress - progress);
-          if (progressDiff >= 1) {
-            ingredientState.conjurationProgress = Math.floor(progress);
-            hasUpdates = true;
-          }
         }
       }
     });
 
-    // Update mixing progress
+    // Check for completed mixing (no progress tracking)
     if (state.kettle.isMixing) {
       const elapsed = Date.now() - state.kettle.mixStartTime;
-      const progress = Math.min((elapsed / state.kettle.mixDuration) * 100, 100);
 
-      if (progress >= 100) {
+      if (elapsed >= state.kettle.mixDuration) {
         // Mixing complete
         this.completeMixing();
         hasUpdates = true;
-      } else {
-        // Only update if progress changed by at least 1%
-        const progressDiff = Math.abs(state.kettle.mixProgress - progress);
-        if (progressDiff >= 1) {
-          state.kettle.mixProgress = Math.floor(progress);
-          hasUpdates = true;
-        }
       }
     }
 
-    // Update quest timer
+    // Check for expired quests
     if (state.activeQuest && !state.activeQuest.isCompleted) {
       const now = Date.now();
       if (now >= state.activeQuest.expiryTime) {
@@ -208,7 +189,8 @@ export class GameStateService {
         ingredientState.count++;
       }
       ingredientState.isConjuring = false;
-      ingredientState.conjurationProgress = 0;
+      ingredientState.conjurationStartTime = 0;
+      ingredientState.conjurationDuration = 0;
 
       // Award XP
       const ingredient = this.dataService.getIngredient(ingredientId);
@@ -268,12 +250,15 @@ export class GameStateService {
 
   // Ingredient operations
   startConjuration(ingredientId: string): void {
+    const ingredient = this.dataService.getIngredient(ingredientId);
+    if (!ingredient) return;
+
     this.updateState(state => {
       const ingredientState = state.ingredients[ingredientId];
       if (!ingredientState.isConjuring && ingredientState.count < ingredientState.maxStorage) {
         ingredientState.isConjuring = true;
         ingredientState.conjurationStartTime = Date.now();
-        ingredientState.conjurationProgress = 0;
+        ingredientState.conjurationDuration = this.getConjurationTime(ingredient, ingredientState);
       }
     });
   }

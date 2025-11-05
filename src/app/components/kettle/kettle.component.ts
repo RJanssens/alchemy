@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameStateService } from '../../services/game-state.service';
 import { RecipeService } from '../../services/recipe.service';
@@ -13,11 +13,12 @@ import { Ingredient } from '../../models/ingredient.model';
   templateUrl: './kettle.component.html',
   styleUrls: ['./kettle.component.css']
 })
-export class KettleComponent implements OnInit {
+export class KettleComponent implements OnInit, OnDestroy {
   gameState: GameState | null = null;
   dragOverSlotIndex: number | null = null;
   resultMessage = '';
   suggestedIngredient: Ingredient | null = null;
+  private localTimer: any;
 
   constructor(
     private gameStateService: GameStateService,
@@ -30,6 +31,18 @@ export class KettleComponent implements OnInit {
       this.gameState = state;
       this.updateSuggestion();
     });
+
+    // Local timer for progress bar only (doesn't update global state)
+    this.localTimer = setInterval(() => {
+      // This forces Angular to check for changes in the template
+      // but doesn't emit new state
+    }, 100);
+  }
+
+  ngOnDestroy(): void {
+    if (this.localTimer) {
+      clearInterval(this.localTimer);
+    }
   }
 
   get kettleSlots(): KettleSlot[] {
@@ -45,7 +58,14 @@ export class KettleComponent implements OnInit {
   }
 
   get mixProgress(): number {
-    return this.gameState?.kettle.mixProgress || 0;
+    if (!this.gameState?.kettle.isMixing) return 0;
+
+    const kettle = this.gameState.kettle;
+    if (kettle.mixDuration === 0) return 0;
+
+    const elapsed = Date.now() - kettle.mixStartTime;
+    const progress = Math.min((elapsed / kettle.mixDuration) * 100, 100);
+    return progress;
   }
 
   get isMixing(): boolean {

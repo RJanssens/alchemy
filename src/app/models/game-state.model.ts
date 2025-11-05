@@ -26,7 +26,6 @@ export interface KettleState {
   slots: KettleSlot[];
   maxSlots: number;
   isMixing: boolean;
-  mixProgress: number;
   mixStartTime: number;
   mixDuration: number;
 }
