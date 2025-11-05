@@ -1,0 +1,70 @@
+<div class="app-container" *ngIf="gameState">
+  <!-- Header -->
+  <header class="game-header">
+    <div class="header-left">
+      <div class="witch-rank">
+        <span class="rank-icon">{{ currentRank.icon }}</span>
+        <span class="rank-name">{{ currentRank.name }}</span>
+      </div>
+    </div>
+
+    <div class="header-center">
+      <div class="xp-display">
+        <div class="xp-item">
+          <span class="xp-label">Total XP:</span>
+          <span class="xp-value">{{ totalXP }}</span>
+        </div>
+        <div class="xp-item">
+          <span class="xp-label">Current XP:</span>
+          <span class="xp-value compound">{{ currentXP }}</span>
+        </div>
+        <div class="xp-item">
+          <span class="xp-label">💰 Gold:</span>
+          <span class="xp-value gold">{{ gold }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <button class="achievement-button" (click)="toggleAchievements()">
+        <span class="achievement-icon">🏆</span>
+        <span class="achievement-count">{{ achievementCount }}/{{ totalAchievements }}</span>
+      </button>
+
+      <button class="settings-button" (click)="resetGame()">
+        ⚙️
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Game Area -->
+  <div class="game-content">
+    <!-- Left Panel - Kettle and Quests -->
+    <div class="left-panel">
+      <app-kettle></app-kettle>
+      <app-quests></app-quests>
+    </div>
+
+    <!-- Center Panel - Ingredient Deck -->
+    <div class="center-panel">
+      <app-ingredient-deck></app-ingredient-deck>
+    </div>
+
+    <!-- Right Panel - Grimoire -->
+    <div class="right-panel">
+      <app-grimoire></app-grimoire>
+    </div>
+  </div>
+
+  <!-- Achievements Modal -->
+  <app-achievements
+    *ngIf="showAchievements"
+    (close)="toggleAchievements()">
+  </app-achievements>
+</div>
+
+<!-- Loading State -->
+<div class="loading" *ngIf="!gameState">
+  <div class="spinner">⚗️</div>
+  <p>Preparing the laboratory...</p>
+</div>

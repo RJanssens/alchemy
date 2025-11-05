@@ -1,0 +1,43 @@
+<div class="grimoire-container card">
+  <h2>📖 Grimoire</h2>
+  <p class="subtitle">Chronicle of Discoveries</p>
+
+  <div class="discoveries-list" *ngIf="discoveries.length > 0; else noDiscoveries">
+    <div *ngFor="let discovery of discoveries" class="discovery-card">
+      <div class="discovery-header">
+        <div class="discovery-title">
+          <span class="discovery-icon">{{ discovery.formula.join(' + ') }}</span>
+          <span class="arrow">→</span>
+          <span class="result-name">{{ discovery.ingredientName }}</span>
+        </div>
+        <span class="discovery-date">{{ formatDate(discovery.discoveryDate) }}</span>
+      </div>
+
+      <div class="discovery-stats">
+        <div class="stat-item">
+          <span class="stat-label">Successful:</span>
+          <span class="stat-value success">{{ discovery.successfulCreations }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Failed:</span>
+          <span class="stat-value failed">{{ discovery.failedAttempts }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Success Rate:</span>
+          <span class="stat-value rate">{{ getSuccessRate(discovery) }}%</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-label">Total:</span>
+          <span class="stat-value">{{ discovery.totalAttempts }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noDiscoveries>
+    <div class="empty-state">
+      <p>No recipes discovered yet.</p>
+      <p class="hint">Mix ingredients in the cauldron to discover new recipes!</p>
+    </div>
+  </ng-template>
+</div>

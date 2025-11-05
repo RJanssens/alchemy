@@ -1,0 +1,65 @@
+<div class="modal-overlay" (click)="closeModal()">
+  <div class="achievements-modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h2>🏆 Achievements</h2>
+      <button class="close-button" (click)="closeModal()">✕</button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button
+        *ngFor="let category of categories"
+        class="tab"
+        [class.active]="activeTab === category"
+        (click)="switchTab(category)"
+      >
+        {{ category }}
+      </button>
+    </div>
+
+    <!-- Achievements Grid -->
+    <div class="achievements-grid">
+      <div
+        *ngFor="let item of filteredAchievements"
+        class="achievement-card"
+        [class.unlocked]="item.state.unlocked"
+        [class.hidden]="!isVisible(item.achievement, item.state)"
+      >
+        <div class="achievement-icon">
+          {{ isVisible(item.achievement, item.state) ? item.achievement.icon : '❓' }}
+        </div>
+
+        <div class="achievement-content">
+          <h3>{{ isVisible(item.achievement, item.state) ? item.achievement.name : '???' }}</h3>
+          <p class="description">
+            {{ isVisible(item.achievement, item.state) ? item.achievement.description : 'Hidden achievement' }}
+          </p>
+
+          <!-- Progress Bar -->
+          <div class="progress-section" *ngIf="!item.state.unlocked && isVisible(item.achievement, item.state)">
+            <div class="progress-text">
+              {{ item.state.progress }} / {{ item.achievement.requirementValue }}
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="getProgress(item.achievement, item.state)"></div>
+            </div>
+          </div>
+
+          <!-- Unlocked Date -->
+          <div class="unlocked-date" *ngIf="item.state.unlocked && item.state.unlockedDate">
+            Unlocked: {{ item.state.unlockedDate | date: 'short' }}
+          </div>
+
+          <!-- Bonus -->
+          <div class="bonus" *ngIf="isVisible(item.achievement, item.state)">
+            <strong>Bonus:</strong> {{ getBonusDescription(item.achievement) }}
+          </div>
+        </div>
+
+        <div class="achievement-status" *ngIf="item.state.unlocked">
+          ✓
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

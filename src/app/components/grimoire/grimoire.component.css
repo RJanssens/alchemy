@@ -1,0 +1,127 @@
+.grimoire-container {
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+}
+
+.grimoire-container h2 {
+  font-size: 20px;
+  margin: 0 0 8px 0;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: #aaa;
+  font-size: 13px;
+  margin: 0 0 16px 0;
+}
+
+/* Discoveries List */
+.discoveries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.discovery-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(138, 43, 226, 0.3);
+  border-radius: 8px;
+  padding: 12px;
+  transition: all 0.3s ease;
+}
+
+.discovery-card:hover {
+  border-color: rgba(138, 43, 226, 0.6);
+  transform: translateX(4px);
+}
+
+.discovery-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+}
+
+.discovery-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.discovery-icon {
+  font-size: 18px;
+}
+
+.arrow {
+  color: #8a2be2;
+  font-weight: 700;
+}
+
+.result-name {
+  color: #fff;
+}
+
+.discovery-date {
+  font-size: 11px;
+  color: #888;
+}
+
+/* Discovery Stats */
+.discovery-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.stat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.stat-label {
+  color: #aaa;
+}
+
+.stat-value {
+  font-weight: 700;
+  color: #fff;
+}
+
+.stat-value.success {
+  color: #4ecdc4;
+}
+
+.stat-value.failed {
+  color: #ff6b35;
+}
+
+.stat-value.rate {
+  color: #ffd700;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 32px 16px;
+  color: #888;
+}
+
+.empty-state p {
+  margin: 8px 0;
+}
+
+.hint {
+  font-size: 13px;
+  color: #666;
+  font-style: italic;
+}

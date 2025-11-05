@@ -1,0 +1,72 @@
+<div class="kettle-container card">
+  <h2>🧙‍♀️ Cauldron</h2>
+
+  <!-- Kettle Slots -->
+  <div class="kettle-slots">
+    <div
+      *ngFor="let slot of kettleSlots; let i = index"
+      class="kettle-slot"
+      [class.empty]="!slot.ingredientId"
+      [class.filled]="slot.ingredientId"
+      [class.drag-over]="dragOverSlotIndex === i"
+      (dragover)="onDragOver($event, i)"
+      (dragleave)="onDragLeave()"
+      (drop)="onDrop($event, i)"
+      (click)="removeFromKettle(i)"
+    >
+      <div *ngIf="slot.ingredientId" class="slot-content">
+        <span class="ingredient-icon">{{ getIngredient(slot.ingredientId)?.icon }}</span>
+        <span class="ingredient-name">{{ getIngredient(slot.ingredientId)?.name }}</span>
+      </div>
+      <div *ngIf="!slot.ingredientId" class="slot-placeholder">
+        Drop ingredient here
+      </div>
+    </div>
+  </div>
+
+  <!-- Mixing Progress -->
+  <div *ngIf="isMixing" class="mixing-section">
+    <div class="mixing-animation">⚗️ Mixing...</div>
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="mixProgress"></div>
+    </div>
+  </div>
+
+  <!-- Action Buttons -->
+  <div class="kettle-actions">
+    <button
+      class="mix-button"
+      [disabled]="!canMix"
+      (click)="startMixing()"
+    >
+      {{ isMixing ? 'Mixing...' : 'Mix Ingredients' }}
+    </button>
+
+    <button
+      class="consult-button"
+      (click)="consultFamiliar()"
+    >
+      🐈 Consult Familiar
+      <span class="cost">({{ getFamiliarConsultationCost() }} XP)</span>
+    </button>
+
+    <button
+      class="expand-button"
+      (click)="expandKettle()"
+      *ngIf="gameState && gameState.kettle.maxSlots < 6"
+    >
+      ➕ Expand Kettle
+      <span class="cost">({{ getKettleExpansionCost() }} XP)</span>
+    </button>
+  </div>
+
+  <!-- Suggestion -->
+  <div *ngIf="suggestedIngredient" class="suggestion-box">
+    <strong>Familiar suggests:</strong> {{ suggestedIngredient.icon }} {{ suggestedIngredient.name }}
+  </div>
+
+  <!-- Result Message -->
+  <div *ngIf="resultMessage" class="result-message">
+    {{ resultMessage }}
+  </div>
+</div>

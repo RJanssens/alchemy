@@ -1,0 +1,49 @@
+import { WitchRank } from '../models/game-state.model';
+
+export const WITCH_RANKS: WitchRank[] = [
+  {
+    name: 'Novice Apprentice',
+    icon: '🧙',
+    minXp: 0
+  },
+  {
+    name: 'Apprentice Alchemist',
+    icon: '🧙‍♀️',
+    minXp: 50
+  },
+  {
+    name: 'Journeyman Alchemist',
+    icon: '🔮',
+    minXp: 200
+  },
+  {
+    name: 'Adept Alchemist',
+    icon: '⚗️',
+    minXp: 500
+  },
+  {
+    name: 'Master Alchemist',
+    icon: '🧪',
+    minXp: 1000
+  },
+  {
+    name: 'Grand Master',
+    icon: '✨',
+    minXp: 2500
+  },
+  {
+    name: 'Archmage',
+    icon: '🌟',
+    minXp: 5000
+  },
+  {
+    name: 'Legendary Sage',
+    icon: '💫',
+    minXp: 10000
+  },
+  {
+    name: 'Eternal Philosopher',
+    icon: '🌌',
+    minXp: 25000
+  }
+];

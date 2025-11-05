@@ -1,0 +1,272 @@
+.ingredient-deck-container {
+  max-height: calc(100vh - 180px);
+  overflow-y: auto;
+}
+
+.deck-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.deck-header h2 {
+  font-size: 20px;
+  margin: 0;
+}
+
+.view-toggle {
+  padding: 8px 12px;
+  font-size: 18px;
+}
+
+/* Grid Layout */
+.ingredients-grid {
+  display: grid;
+  gap: 12px;
+}
+
+.ingredients-grid:not(.collapsed) {
+  grid-template-columns: 1fr;
+}
+
+.ingredients-grid.collapsed {
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+}
+
+/* Ingredient Card */
+.ingredient-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(138, 43, 226, 0.3);
+  border-radius: 10px;
+  padding: 12px;
+  transition: all 0.3s ease;
+  cursor: grab;
+}
+
+.ingredient-card:active {
+  cursor: grabbing;
+}
+
+.ingredient-card:hover {
+  border-color: rgba(138, 43, 226, 0.6);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(138, 43, 226, 0.3);
+}
+
+.ingredient-card.base {
+  border-color: rgba(255, 215, 0, 0.4);
+}
+
+/* Card Content */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.ingredient-icon {
+  font-size: 32px;
+}
+
+.ingredient-info {
+  flex: 1;
+}
+
+.ingredient-info h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  color: #fff;
+}
+
+.element-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border: 1px solid;
+}
+
+.ingredient-description {
+  font-size: 12px;
+  color: #aaa;
+  margin: 8px 0;
+  line-height: 1.4;
+}
+
+/* Count Display */
+.count-display {
+  margin: 12px 0;
+}
+
+.count {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+  color: #fff;
+}
+
+.storage-bar {
+  height: 8px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.storage-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #8a2be2 0%, #da70d6 100%);
+  transition: width 0.3s ease;
+}
+
+/* Conjuration Progress */
+.conjuration-progress {
+  margin: 8px 0;
+}
+
+.progress-label {
+  display: block;
+  font-size: 12px;
+  color: #8a2be2;
+  margin-bottom: 4px;
+}
+
+/* Action Buttons */
+.card-actions {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0;
+  flex-wrap: wrap;
+}
+
+.action-button {
+  flex: 1;
+  padding: 8px 12px;
+  font-size: 13px;
+  min-width: 80px;
+}
+
+.action-button.conjure {
+  background: linear-gradient(135deg, #8a2be2 0%, #9d4edd 100%);
+}
+
+.action-button.cast {
+  background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+}
+
+.action-button.auto {
+  background: linear-gradient(135deg, #4ecdc4 0%, #44a8a0 100%);
+}
+
+.action-button.auto.active {
+  background: linear-gradient(135deg, #95e1d3 0%, #4ecdc4 100%);
+  box-shadow: 0 0 12px rgba(78, 205, 196, 0.5);
+}
+
+/* Enhancement Section */
+.enhancement-section {
+  margin-top: 12px;
+  border-top: 1px solid rgba(138, 43, 226, 0.3);
+  padding-top: 12px;
+}
+
+.enhancement-toggle {
+  width: 100%;
+  text-align: left;
+  padding: 8px;
+  background: rgba(138, 43, 226, 0.1);
+  border: 1px solid rgba(138, 43, 226, 0.3);
+  border-radius: 6px;
+  font-size: 13px;
+  color: #e0e0e0;
+}
+
+.enhancements {
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.enhancement-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  font-size: 12px;
+}
+
+.buy-button {
+  padding: 4px 8px;
+  font-size: 11px;
+}
+
+/* Indicators */
+.indicators {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.indicator {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.indicator.undiscovered {
+  background: rgba(255, 215, 0, 0.2);
+  border: 1px solid rgba(255, 215, 0, 0.5);
+  color: #ffd700;
+}
+
+.indicator.auto-active {
+  background: rgba(78, 205, 196, 0.2);
+  border: 1px solid rgba(78, 205, 196, 0.5);
+  color: #4ecdc4;
+}
+
+/* Collapsed View */
+.card-collapsed {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  position: relative;
+}
+
+.ingredient-icon-large {
+  font-size: 40px;
+}
+
+.count-badge {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(138, 43, 226, 0.9);
+  color: white;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.auto-indicator {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  font-size: 14px;
+}

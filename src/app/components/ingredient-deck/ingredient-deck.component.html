@@ -1,0 +1,152 @@
+<div class="ingredient-deck-container card">
+  <div class="deck-header">
+    <h2>📦 Ingredient Deck</h2>
+    <button class="view-toggle" (click)="toggleViewMode()">
+      {{ viewMode === 'full' ? '📋' : '🗂️' }}
+    </button>
+  </div>
+
+  <div class="ingredients-grid" [class.collapsed]="viewMode === 'collapsed'">
+    <div
+      *ngFor="let item of visibleIngredients"
+      class="ingredient-card"
+      [class.base]="item.ingredient.isBase"
+      [draggable]="item.state.count > 0"
+      (dragstart)="onDragStart($event, item.ingredient.id)"
+    >
+      <!-- Full View -->
+      <div *ngIf="viewMode === 'full'" class="card-content">
+        <!-- Header -->
+        <div class="card-header">
+          <span class="ingredient-icon">{{ item.ingredient.icon }}</span>
+          <div class="ingredient-info">
+            <h3>{{ item.ingredient.name }}</h3>
+            <span class="element-badge" [ngClass]="getElementClass(item.ingredient.elementType)">
+              {{ item.ingredient.elementType }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Description -->
+        <p class="ingredient-description">{{ item.ingredient.description }}</p>
+
+        <!-- Count and Storage -->
+        <div class="count-display">
+          <span class="count">{{ item.state.count }} / {{ item.state.maxStorage }}</span>
+          <div class="storage-bar">
+            <div
+              class="storage-fill"
+              [style.width.%]="(item.state.count / item.state.maxStorage) * 100"
+            ></div>
+          </div>
+        </div>
+
+        <!-- Conjuration Progress -->
+        <div *ngIf="item.state.isConjuring" class="conjuration-progress">
+          <span class="progress-label">Conjuring...</span>
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="item.state.conjurationProgress"></div>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="card-actions">
+          <button
+            *ngIf="item.ingredient.isBase"
+            class="action-button conjure"
+            [disabled]="item.state.isConjuring || item.state.count >= item.state.maxStorage"
+            (click)="startConjuration(item.ingredient.id)"
+          >
+            ✨ Conjure
+          </button>
+
+          <button
+            *ngIf="!item.ingredient.isBase && item.state.count > 0"
+            class="action-button cast"
+            (click)="castForXP(item.ingredient)"
+          >
+            🌟 Cast ({{ item.ingredient.baseXpValue * 2 }} XP)
+          </button>
+
+          <button
+            *ngIf="item.state.autoConjureUnlocked"
+            class="action-button auto"
+            [class.active]="item.state.autoConjureEnabled"
+            (click)="toggleAutoConjure(item.ingredient.id)"
+          >
+            {{ item.state.autoConjureEnabled ? '⏸️' : '▶️' }} Auto
+          </button>
+        </div>
+
+        <!-- Enhancement Panel -->
+        <div class="enhancement-section">
+          <button
+            class="enhancement-toggle"
+            (click)="toggleEnhancements(item.ingredient.id)"
+          >
+            {{ isExpanded(item.ingredient.id) ? '▼' : '▶' }} Enhancements
+          </button>
+
+          <div *ngIf="isExpanded(item.ingredient.id)" class="enhancements">
+            <div class="enhancement-item">
+              <span>📦 Storage (Lv {{ item.state.storageLevel }})</span>
+              <button
+                class="buy-button"
+                (click)="purchaseEnhancement(item.ingredient.id, 'storage')"
+              >
+                {{ getEnhancementCost(item.ingredient.id, 'storage') }} XP
+              </button>
+            </div>
+
+            <div class="enhancement-item" *ngIf="item.ingredient.isBase">
+              <span>⚡ Speed (Lv {{ item.state.speedLevel }})</span>
+              <button
+                class="buy-button"
+                (click)="purchaseEnhancement(item.ingredient.id, 'speed')"
+              >
+                {{ getEnhancementCost(item.ingredient.id, 'speed') }} XP
+              </button>
+            </div>
+
+            <div class="enhancement-item" *ngIf="!item.ingredient.isBase">
+              <span>🎯 Success (Lv {{ item.state.successRateLevel }})</span>
+              <button
+                class="buy-button"
+                (click)="purchaseEnhancement(item.ingredient.id, 'successRate')"
+              >
+                {{ getEnhancementCost(item.ingredient.id, 'successRate') }} XP
+              </button>
+            </div>
+
+            <div class="enhancement-item" *ngIf="!item.state.autoConjureUnlocked">
+              <span>🔓 Auto-Conjure</span>
+              <button
+                class="buy-button"
+                (click)="purchaseEnhancement(item.ingredient.id, 'autoConjureUnlock')"
+              >
+                {{ getEnhancementCost(item.ingredient.id, 'autoConjureUnlock') }} XP
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Indicators -->
+        <div class="indicators">
+          <span *ngIf="hasUndiscoveredRecipes(item.ingredient.id)" class="indicator undiscovered">
+            🔍 Undiscovered recipes
+          </span>
+          <span *ngIf="item.state.autoConjureEnabled" class="indicator auto-active">
+            ▶️ Auto-conjure active
+          </span>
+        </div>
+      </div>
+
+      <!-- Collapsed View -->
+      <div *ngIf="viewMode === 'collapsed'" class="card-collapsed">
+        <span class="ingredient-icon-large">{{ item.ingredient.icon }}</span>
+        <div class="count-badge">{{ item.state.count }}</div>
+        <span *ngIf="item.state.autoConjureEnabled" class="auto-indicator">▶️</span>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="quests-container card">
+  <h2>📜 Quests</h2>
+
+  <!-- Active Quest -->
+  <div *ngIf="activeQuest" class="active-quest">
+    <div class="quest-header">
+      <h3>{{ activeQuest.targetIngredientName }}</h3>
+      <span class="time-remaining">⏱️ {{ timeRemaining }}</span>
+    </div>
+
+    <div class="quest-progress">
+      <div class="progress-text">
+        <span>Progress:</span>
+        <span class="progress-count">{{ activeQuest.currentAmount }} / {{ activeQuest.targetAmount }}</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="getProgress()"></div>
+      </div>
+    </div>
+
+    <div class="quest-reward">
+      <span>Reward:</span>
+      <span class="reward-value">{{ activeQuest.xpReward }} XP</span>
+    </div>
+
+    <button class="abandon-button" (click)="abandonQuest()">
+      Abandon Quest
+    </button>
+  </div>
+
+  <!-- Available Quests -->
+  <div *ngIf="!activeQuest" class="available-quests">
+    <div *ngIf="availableQuests.length > 0" class="quests-list">
+      <div *ngFor="let quest of availableQuests" class="quest-offer">
+        <div class="offer-header">
+          <h3>{{ quest.targetIngredientName }}</h3>
+          <span class="duration">⏱️ {{ formatDuration(quest.duration) }}</span>
+        </div>
+
+        <div class="offer-details">
+          <div class="detail-item">
+            <span class="detail-label">Target:</span>
+            <span class="detail-value">{{ quest.targetAmount }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Reward:</span>
+            <span class="detail-value reward">{{ quest.xpReward }} XP</span>
+          </div>
+        </div>
+
+        <button class="accept-button" (click)="acceptQuest(quest)">
+          Accept Quest
+        </button>
+      </div>
+    </div>
+
+    <div class="refresh-section">
+      <button
+        class="refresh-button"
+        [disabled]="!canRefreshQuests"
+        (click)="refreshQuests()"
+      >
+        🔄 Refresh Quests
+      </button>
+      <p *ngIf="!canRefreshQuests" class="refresh-hint">
+        New quests available in 1 hour
+      </p>
+    </div>
+  </div>
+</div>
