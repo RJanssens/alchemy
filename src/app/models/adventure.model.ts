@@ -9,6 +9,19 @@ export interface Equipment {
   rarity: 'common' | 'uncommon' | 'rare' | 'epic' | 'legendary';
 }
 
+export interface MonsterTemplate {
+  id: string;
+  name: string;
+  icon: string;
+  level: number;
+  baseHealth: number;
+  attack: number;
+  defense: number;
+  xpReward: number;
+  goldReward: number;
+  equipmentDropChance: number; // 0-100
+}
+
 export interface Monster {
   id: string;
   name: string;

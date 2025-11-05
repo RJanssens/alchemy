@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameStateService } from '../../services/game-state.service';
 import { RecipeService } from '../../services/recipe.service';
+import { DataService } from '../../services/data.service';
 import { GameState, KettleSlot } from '../../models/game-state.model';
-import { INGREDIENTS } from '../../data/ingredients.data';
 import { Ingredient, IngredientState } from '../../models/ingredient.model';
 
 interface IngredientDisplay {
@@ -25,7 +25,8 @@ export class IngredientDeckComponent implements OnInit {
 
   constructor(
     private gameStateService: GameStateService,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private dataService: DataService
   ) {}
 
   ngOnInit(): void {
@@ -37,7 +38,7 @@ export class IngredientDeckComponent implements OnInit {
   get visibleIngredients(): IngredientDisplay[] {
     if (!this.gameState) return [];
 
-    return INGREDIENTS
+    return this.dataService.getIngredients()
       .filter(ingredient => {
         const state = this.gameState!.ingredients[ingredient.id];
         // Show base ingredients always, or discovered/in-inventory compounds

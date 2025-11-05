@@ -1,0 +1,182 @@
+[
+  {
+    "id": "wooden-staff",
+    "name": "Wooden Staff",
+    "type": "weapon",
+    "icon": "🪵",
+    "attack": 5,
+    "defense": 0,
+    "value": 10,
+    "rarity": "common"
+  },
+  {
+    "id": "iron-sword",
+    "name": "Iron Sword",
+    "type": "weapon",
+    "icon": "⚔️",
+    "attack": 15,
+    "defense": 0,
+    "value": 50,
+    "rarity": "common"
+  },
+  {
+    "id": "steel-blade",
+    "name": "Steel Blade",
+    "type": "weapon",
+    "icon": "🗡️",
+    "attack": 25,
+    "defense": 0,
+    "value": 150,
+    "rarity": "uncommon"
+  },
+  {
+    "id": "enchanted-wand",
+    "name": "Enchanted Wand",
+    "type": "weapon",
+    "icon": "🪄",
+    "attack": 40,
+    "defense": 5,
+    "value": 300,
+    "rarity": "rare"
+  },
+  {
+    "id": "dragon-fang",
+    "name": "Dragon Fang",
+    "type": "weapon",
+    "icon": "🦷",
+    "attack": 60,
+    "defense": 10,
+    "value": 800,
+    "rarity": "epic"
+  },
+  {
+    "id": "staff-of-eternity",
+    "name": "Staff of Eternity",
+    "type": "weapon",
+    "icon": "✨",
+    "attack": 100,
+    "defense": 20,
+    "value": 2000,
+    "rarity": "legendary"
+  },
+  {
+    "id": "leather-vest",
+    "name": "Leather Vest",
+    "type": "armor",
+    "icon": "🦺",
+    "attack": 0,
+    "defense": 5,
+    "value": 10,
+    "rarity": "common"
+  },
+  {
+    "id": "chain-mail",
+    "name": "Chain Mail",
+    "type": "armor",
+    "icon": "🛡️",
+    "attack": 0,
+    "defense": 15,
+    "value": 60,
+    "rarity": "common"
+  },
+  {
+    "id": "plate-armor",
+    "name": "Plate Armor",
+    "type": "armor",
+    "icon": "🛡️",
+    "attack": 0,
+    "defense": 30,
+    "value": 200,
+    "rarity": "uncommon"
+  },
+  {
+    "id": "mystic-robe",
+    "name": "Mystic Robe",
+    "type": "armor",
+    "icon": "👘",
+    "attack": 5,
+    "defense": 35,
+    "value": 400,
+    "rarity": "rare"
+  },
+  {
+    "id": "dragonscale-armor",
+    "name": "Dragonscale Armor",
+    "type": "armor",
+    "icon": "🐉",
+    "attack": 15,
+    "defense": 50,
+    "value": 1000,
+    "rarity": "epic"
+  },
+  {
+    "id": "celestial-vestments",
+    "name": "Celestial Vestments",
+    "type": "armor",
+    "icon": "🌟",
+    "attack": 25,
+    "defense": 80,
+    "value": 2500,
+    "rarity": "legendary"
+  },
+  {
+    "id": "copper-ring",
+    "name": "Copper Ring",
+    "type": "accessory",
+    "icon": "💍",
+    "attack": 2,
+    "defense": 2,
+    "value": 15,
+    "rarity": "common"
+  },
+  {
+    "id": "silver-amulet",
+    "name": "Silver Amulet",
+    "type": "accessory",
+    "icon": "📿",
+    "attack": 5,
+    "defense": 5,
+    "value": 70,
+    "rarity": "common"
+  },
+  {
+    "id": "emerald-pendant",
+    "name": "Emerald Pendant",
+    "type": "accessory",
+    "icon": "💚",
+    "attack": 10,
+    "defense": 10,
+    "value": 250,
+    "rarity": "uncommon"
+  },
+  {
+    "id": "ruby-brooch",
+    "name": "Ruby Brooch",
+    "type": "accessory",
+    "icon": "❤️",
+    "attack": 20,
+    "defense": 15,
+    "value": 500,
+    "rarity": "rare"
+  },
+  {
+    "id": "phoenix-feather",
+    "name": "Phoenix Feather",
+    "type": "accessory",
+    "icon": "🪶",
+    "attack": 30,
+    "defense": 30,
+    "value": 1200,
+    "rarity": "epic"
+  },
+  {
+    "id": "crown-of-ancients",
+    "name": "Crown of Ancients",
+    "type": "accessory",
+    "icon": "👑",
+    "attack": 50,
+    "defense": 50,
+    "value": 3000,
+    "rarity": "legendary"
+  }
+]

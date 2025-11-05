@@ -4,9 +4,7 @@ import { GameState, ExperiencePoints, KettleState } from '../models/game-state.m
 import { IngredientState, Ingredient } from '../models/ingredient.model';
 import { Quest } from '../models/quest.model';
 import { AchievementState } from '../models/achievement.model';
-import { INGREDIENTS } from '../data/ingredients.data';
-import { RECIPES } from '../data/recipes.data';
-import { ACHIEVEMENTS } from '../data/achievements.data';
+import { DataService } from './data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +15,7 @@ export class GameStateService {
 
   private gameState$: BehaviorSubject<GameState>;
 
-  constructor() {
+  constructor(private dataService: DataService) {
     this.gameState$ = new BehaviorSubject<GameState>(this.loadGame() || this.createNewGame());
 
     // Auto-save every 30 seconds
@@ -49,7 +47,7 @@ export class GameStateService {
     const ingredients: { [key: string]: IngredientState } = {};
 
     // Initialize all ingredients
-    INGREDIENTS.forEach(ingredient => {
+    this.dataService.getIngredients().forEach(ingredient => {
       ingredients[ingredient.id] = {
         ingredientId: ingredient.id,
         count: 0,
@@ -69,7 +67,7 @@ export class GameStateService {
     });
 
     const achievements: { [key: string]: AchievementState } = {};
-    ACHIEVEMENTS.forEach(achievement => {
+    this.dataService.getAchievements().forEach(achievement => {
       achievements[achievement.id] = {
         achievementId: achievement.id,
         unlocked: false,
@@ -78,7 +76,7 @@ export class GameStateService {
     });
 
     const recipes: { [key: string]: boolean } = {};
-    RECIPES.forEach(recipe => {
+    this.dataService.getRecipes().forEach(recipe => {
       recipes[recipe.id] = false;
     });
 
@@ -128,7 +126,7 @@ export class GameStateService {
     // Update conjuration progress
     Object.keys(state.ingredients).forEach(ingredientId => {
       const ingredientState = state.ingredients[ingredientId];
-      const ingredient = INGREDIENTS.find(i => i.id === ingredientId);
+      const ingredient = this.dataService.getIngredient(ingredientId);
 
       if (ingredient && ingredientState.isConjuring) {
         const elapsed = Date.now() - ingredientState.conjurationStartTime;
@@ -187,7 +185,7 @@ export class GameStateService {
       ingredientState.conjurationProgress = 0;
 
       // Award XP
-      const ingredient = INGREDIENTS.find(i => i.id === ingredientId);
+      const ingredient = this.dataService.getIngredient(ingredientId);
       if (ingredient) {
         this.addXP(state, ingredient.elementType, ingredient.baseXpValue);
       }

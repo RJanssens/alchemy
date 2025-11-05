@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameStateService } from '../../services/game-state.service';
 import { RecipeService } from '../../services/recipe.service';
+import { DataService } from '../../services/data.service';
 import { GameState, KettleSlot } from '../../models/game-state.model';
-import { INGREDIENTS } from '../../data/ingredients.data';
 import { Ingredient } from '../../models/ingredient.model';
 
 @Component({
@@ -21,7 +21,8 @@ export class KettleComponent implements OnInit {
 
   constructor(
     private gameStateService: GameStateService,
-    private recipeService: RecipeService
+    private recipeService: RecipeService,
+    private dataService: DataService
   ) {}
 
   ngOnInit(): void {
@@ -53,7 +54,7 @@ export class KettleComponent implements OnInit {
 
   getIngredient(ingredientId: string | null): Ingredient | null {
     if (!ingredientId) return null;
-    return INGREDIENTS.find(i => i.id === ingredientId) || null;
+    return this.dataService.getIngredient(ingredientId) || null;
   }
 
   onDragOver(event: DragEvent, slotIndex: number): void {

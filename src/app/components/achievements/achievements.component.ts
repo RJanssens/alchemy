@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { GameStateService } from '../../services/game-state.service';
 import { GameState } from '../../models/game-state.model';
 import { Achievement, AchievementState, AchievementCategory } from '../../models/achievement.model';
-import { ACHIEVEMENTS } from '../../data/achievements.data';
+import { ACHIEVEMENTS } from '../../services/data.service';
 
 @Component({
   selector: 'app-achievements',

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { GameStateService } from '../../services/game-state.service';
 import { GameState } from '../../models/game-state.model';
 import { Quest, QuestOffer } from '../../models/quest.model';
-import { INGREDIENTS } from '../../data/ingredients.data';
+import { INGREDIENTS } from '../../services/data.service';
 import { Subscription, interval } from 'rxjs';
 
 @Component({

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GameStateService } from './services/game-state.service';
+import { DataService } from './services/data.service';
 import { GameState } from './models/game-state.model';
-import { WITCH_RANKS } from './data/witch-ranks.data';
 import { KettleComponent } from './components/kettle/kettle.component';
 import { IngredientDeckComponent } from './components/ingredient-deck/ingredient-deck.component';
 import { GrimoireComponent } from './components/grimoire/grimoire.component';
@@ -30,7 +30,10 @@ export class AppComponent implements OnInit {
   showAchievements = false;
   showSettings = false;
 
-  constructor(public gameStateService: GameStateService) {}
+  constructor(
+    public gameStateService: GameStateService,
+    private dataService: DataService
+  ) {}
 
   ngOnInit(): void {
     this.gameStateService.getState().subscribe(state => {
@@ -40,9 +43,10 @@ export class AppComponent implements OnInit {
 
   get currentRank() {
     const totalXp = this.gameStateService.getTotalXP();
-    let rank = WITCH_RANKS[0];
+    const ranks = this.dataService.getWitchRanks();
+    let rank = ranks[0];
 
-    for (const r of WITCH_RANKS) {
+    for (const r of ranks) {
       if (totalXp >= r.minXp) {
         rank = r;
       } else {

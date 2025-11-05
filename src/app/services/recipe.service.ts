@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 import { GameStateService } from './game-state.service';
+import { DataService } from './data.service';
 import { Recipe, RecipeDiscovery } from '../models/recipe.model';
 import { Ingredient } from '../models/ingredient.model';
-import { RECIPES } from '../data/recipes.data';
-import { INGREDIENTS } from '../data/ingredients.data';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
-  constructor(private gameState: GameStateService) {}
+  constructor(
+    private gameState: GameStateService,
+    private dataService: DataService
+  ) {}
 
   findMatchingRecipe(kettleIngredients: string[]): Recipe | null {
     // Create a map of ingredient counts in kettle
@@ -21,7 +23,7 @@ export class RecipeService {
     });
 
     // Find matching recipe
-    for (const recipe of RECIPES) {
+    for (const recipe of this.dataService.getRecipes()) {
       const recipeMap = new Map<string, number>();
       recipe.requiredIngredients.forEach(req => {
         recipeMap.set(req.ingredientId, req.amount);
@@ -62,7 +64,7 @@ export class RecipeService {
     }
 
     // Recipe found - start mixing
-    const resultIngredient = INGREDIENTS.find(i => i.id === recipe.resultIngredientId);
+    const resultIngredient = this.dataService.getIngredient(recipe.resultIngredientId);
     if (!resultIngredient) {
       return { success: false, message: 'Invalid recipe!' };
     }
@@ -150,7 +152,7 @@ export class RecipeService {
           ingredientId: resultIngredient.id,
           ingredientName: resultIngredient.name,
           formula: recipe.requiredIngredients.map(req => {
-            const ing = INGREDIENTS.find(i => i.id === req.ingredientId);
+            const ing = this.dataService.getIngredient(req.ingredientId);
             return ing?.icon || '?';
           }),
           discoveryDate: new Date(),
@@ -205,7 +207,7 @@ export class RecipeService {
       kettleMap.set(id!, (kettleMap.get(id!) || 0) + 1);
     });
 
-    for (const recipe of RECIPES) {
+    for (const recipe of this.dataService.getRecipes()) {
       const recipeMap = new Map<string, number>();
       recipe.requiredIngredients.forEach(req => {
         recipeMap.set(req.ingredientId, req.amount);
@@ -245,7 +247,7 @@ export class RecipeService {
     const state = this.gameState.getCurrentState();
     let count = 0;
 
-    RECIPES.forEach(recipe => {
+    this.dataService.getRecipes().forEach(recipe => {
       if (!state.recipes[recipe.id]) {
         const hasIngredient = recipe.requiredIngredients.some(req => req.ingredientId === ingredientId);
         if (hasIngredient) {
